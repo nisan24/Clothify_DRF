@@ -11,7 +11,12 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
         
-        
+    def validate_email(self, value):
+        if User.objects.filter(email= value).exists():
+            raise serializers.ValidationError("Email is already registered.")
+        return value        
+
+
     def save(self):
         username = self.validated_data['username']
         first_name = self.validated_data['first_name']
@@ -26,14 +31,15 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
         if password != confirm_password:
             errors['confirm_password'] = "Passwords do not match"
 
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username= username).exists():
             errors['username'] = "Username already exists"
 
-        if User.objects.filter(email=email).exists():
-            errors['email'] = "Email already exists"
+        # if User.objects.filter(email= email).exists():
+        #     errors['email'] = "Email already exists"
 
         if errors:
             raise serializers.ValidationError(errors)
+        
         
         account = User(username = username, first_name = first_name, last_name = last_name, email = email)
         account.set_password(password)
@@ -46,7 +52,6 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
 class UserLogin_Serializer(serializers.Serializer):
     username = serializers.CharField(required = True)
     password = serializers.CharField(required = True)
-    
     
     
     
