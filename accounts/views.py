@@ -19,7 +19,6 @@ from django.http import HttpResponseRedirect
 
 
 class UserRegistrationAPIView(APIView):
-   
     serializer_class = serializers.UserRegistration_Serializers
     
     def post(self, req):
@@ -32,7 +31,7 @@ class UserRegistrationAPIView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             confirm_link = f"https://clothify-yzcm.onrender.com/api/accounts/verify/{uid}/{token}/"
             
-            email_subject = "Confirm Your Email"
+            email_subject = "Activate your account"
             email_body = render_to_string('confirm_email.html', {
                 'confirm_link' : confirm_link,
             })
@@ -41,7 +40,7 @@ class UserRegistrationAPIView(APIView):
             send_mail.send()
             return Response({"message" : "Registration successful. Please check your email for verification."})
         
-        return Response({"errors": serializer.errors}, status= 400)
+        return Response(serializer.errors)
             
             
             
@@ -57,9 +56,7 @@ def activate(req, uid64, token):
         user.save()
         
         return HttpResponseRedirect("https://clothify-frontend.onrender.com/login.html")
-
-        # return redirect('user_login')
-        
+        # return redirect('user_login')   
     else:
         return HttpResponseRedirect("https://clothify-frontend.onrender.com/register.html")
         # return redirect('register', {'message': 'Invalid or expired token.'})
@@ -87,7 +84,6 @@ class UserLoginApiView(APIView):
                 return Response({'error' : "Invalid credentials"})
         return Response(serializer.errors) 
             
-
 
 # class UserLogoutApiView(APIView):
 #     def get(self, request):

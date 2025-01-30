@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from . models import *
+from django.contrib.auth import authenticate
 
 
 class UserRegistration_Serializers(serializers.ModelSerializer): 
@@ -11,12 +12,7 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
         
-    def validate_email(self, value):
-        if User.objects.filter(email= value).exists():
-            raise serializers.ValidationError("Email is already registered.")
-        return value        
-
-
+        
     def save(self):
         username = self.validated_data['username']
         first_name = self.validated_data['first_name']
@@ -26,19 +22,16 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
         confirm_password = self.validated_data['confirm_password']
           
           
-        errors = {}
-
         if password != confirm_password:
-            errors['confirm_password'] = "Passwords do not match"
-
+            raise serializers.ValidationError({'error': "Passwords do not match"})
+        
+        
         if User.objects.filter(username= username).exists():
-            errors['username'] = "Username already exists"
-
-        # if User.objects.filter(email= email).exists():
-        #     errors['email'] = "Email already exists"
-
-        if errors:
-            raise serializers.ValidationError(errors)
+            raise serializers.ValidationError({'username': 'username already exists'})
+        
+        
+        if User.objects.filter(email= email).exists():
+            raise serializers.ValidationError({'email': 'Email already exists'})
         
         
         account = User(username = username, first_name = first_name, last_name = last_name, email = email)
@@ -46,6 +39,7 @@ class UserRegistration_Serializers(serializers.ModelSerializer):
         account.is_active = False
         account.save()
         return account
+    
     
     
     
