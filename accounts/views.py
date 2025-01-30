@@ -41,7 +41,7 @@ class UserRegistrationAPIView(APIView):
             send_mail.send()
             return Response({"message" : "Registration successful. Please check your email for verification."})
         
-        return Response(serializer.errors)
+        return Response({"errors": serializer.errors}, status= 400)
             
             
             
