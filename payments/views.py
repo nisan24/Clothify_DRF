@@ -129,7 +129,7 @@ class PaymentSuccess_View(APIView):
             
             Cart_Model.objects.filter(user= order.user).delete()
 
-            return HttpResponseRedirect("http://127.0.0.1:5501/my_order.html")
+            return HttpResponseRedirect("https://clothify-frontend.onrender.com/my_order.html")
             # return Response({
             #     "message": "Payment successful!",
             #     "order_id": order.id,
@@ -155,7 +155,7 @@ class PaymentFail_View(APIView):
             order.order_status = 'Failed'
             order.save()
 
-            return HttpResponseRedirect("http://127.0.0.1:5501/cart.html")
+            return HttpResponseRedirect("https://clothify-frontend.onrender.com/cart.html")
             # return Response({'message': 'Payment failed!'}, status= status.HTTP_200_OK)
         except Payment_Model.DoesNotExist:
             return Response({'message': 'Payment not found'}, status= status.HTTP_404_NOT_FOUND)
@@ -176,7 +176,7 @@ class PaymentCancel_View(APIView):
             order.save()
             
             
-            return HttpResponseRedirect("http://127.0.0.1:5501/cart.html")
+            return HttpResponseRedirect("https://clothify-frontend.onrender.com/cart.html")
             # return Response({'message': 'Payment cancelled!'}, status= status.HTTP_200_OK)
         except Payment_Model.DoesNotExist:
             return Response({'message': 'Payment not found'}, status= status.HTTP_404_NOT_FOUND)

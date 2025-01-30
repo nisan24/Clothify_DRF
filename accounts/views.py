@@ -14,7 +14,7 @@ from django.core.mail import EmailMultiAlternatives, EmailMessage
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserProfile_Serializer
 from rest_framework.authentication import TokenAuthentication
-
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
@@ -55,10 +55,14 @@ def activate(req, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('user_login')
+        
+        return HttpResponseRedirect("https://clothify-frontend.onrender.com/login.html")
+
+        # return redirect('user_login')
         
     else:
-        return redirect('register', {'message': 'Invalid or expired token.'})
+        return HttpResponseRedirect("https://clothify-frontend.onrender.com/register.html")
+        # return redirect('register', {'message': 'Invalid or expired token.'})
         
         
         
