@@ -40,6 +40,7 @@ class Brand_Model(models.Model):
 class Category_Model(models.Model):
     name = models.CharField(max_length= 200)
     slug = models.SlugField(max_length= 255)
+    image = models.ImageField(upload_to= 'category/image/', null= True)
     
     def __str__(self):
         return self.name
