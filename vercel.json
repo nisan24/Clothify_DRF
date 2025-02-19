@@ -5,7 +5,7 @@
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "50mb",
-        "runtime": "python3.12.6"
+        "runtime": "python3.12"
       }
     }
   ],
@@ -14,10 +14,5 @@
       "src": "/(.*)",
       "dest": "clothify/wsgi.py"
     }
-  ],
-  "functions": {
-    "api/**": {
-      "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
-    }
-  }
+  ]
 }
