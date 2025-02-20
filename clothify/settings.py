@@ -1,17 +1,19 @@
 from pathlib import Path
-import environ
 import os
+import environ
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
 
 env = environ.Env()
 environ.Env.read_env()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -23,8 +25,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
-    "corsheaders",
-    
+    'corsheaders',
+    'cloudinary',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -161,3 +163,25 @@ DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 STORE_ID = env("STORE_ID")
 STORE_PASS = env("STORE_PASS")
 IS_SANDBOX = env("IS_SANDBOX")
+
+
+# ===========
+
+# print(env("dbname"))
+# print(env("user"))
+# print(env("password"))
+# print(env("host"))
+# print(env("port"))
+# print(env("CLOUDINARY_URL"))
+# print(env("CLOUDINARY_CLOUD_NAME"))
+# print(env("CLOUDINARY_API_KEY"))
+# print(env("CLOUDINARY_API_SECRET"))
+
+CLOUDINARY_URL= env("CLOUDINARY_URL")
+
+cloudinary.config( 
+  cloud_name = env("CLOUDINARY_CLOUD_NAME"),  
+  api_key = env("CLOUDINARY_API_KEY"),  
+  api_secret = env("CLOUDINARY_API_SECRET"),
+  secure= True
+)
