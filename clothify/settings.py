@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'clothify.wsgi.application'
+WSGI_APPLICATION = 'clothify.wsgi.app'
 
 
 # DATABASES = {
@@ -177,11 +177,11 @@ IS_SANDBOX = env("IS_SANDBOX")
 # print(env("CLOUDINARY_API_KEY"))
 # print(env("CLOUDINARY_API_SECRET"))
 
-CLOUDINARY_URL= env("CLOUDINARY_URL")
+CLOUDINARY_URL='cloudinary://474691172882469:lUdrAKbCDyQCdP5bysIvSYXb5cc@dfqwj2lfu'
 
 cloudinary.config( 
-  cloud_name = env("CLOUDINARY_CLOUD_NAME"),  
-  api_key = env("CLOUDINARY_API_KEY"),  
-  api_secret = env("CLOUDINARY_API_SECRET"),
+  cloud_name = 'dfqwj2lfu',  
+  api_key = '474691172882469',  
+  api_secret = 'lUdrAKbCDyQCdP5bysIvSYXb5cc',
   secure= True
 )
